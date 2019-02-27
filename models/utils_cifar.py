@@ -102,7 +102,7 @@ def train(model, trainloader, trainset, epoch, num_epochs, batch_size, lr, use_c
         loss.backward()  # Backward Propagation
         optimizer.step()  # Optimizer update
 
-        train_loss += loss.data[0]
+        train_loss += loss.data.item()
         _, predicted = torch.max(out.data, 1)
         total += targets.size(0)
         correct += predicted.eq(targets.data).cpu().sum()
@@ -110,7 +110,7 @@ def train(model, trainloader, trainset, epoch, num_epochs, batch_size, lr, use_c
         sys.stdout.write('\r')
         sys.stdout.write('| Epoch [%3d/%3d] Iter[%3d/%3d]\t\tLoss: %.4f Acc@1: %.3f%%'
                          % (epoch, num_epochs, batch_idx+1,
-                            (len(trainset)//batch_size)+1, loss.data[0], 100.*correct/total))
+                            (len(trainset)//batch_size)+1, loss.data.item(), 100.*correct/total))
         sys.stdout.flush()
 
 
@@ -126,14 +126,14 @@ def test(model, testloader, testset, epoch, use_cuda, best_acc, dataset, fname):
         out, out_bij = model(inputs)
         loss = criterion(out, targets)
 
-        test_loss += loss.data[0]
+        test_loss += loss.data.item()
         _, predicted = torch.max(out.data, 1)
         total += targets.size(0)
         correct += predicted.eq(targets.data).cpu().sum()
 
     # Save checkpoint when best model
     acc = 100.*correct/total
-    print("\n| Validation Epoch #%d\t\t\tLoss: %.4f Acc@1: %.2f%%" %(epoch, loss.data[0], acc))
+    print("\n| Validation Epoch #%d\t\t\tLoss: %.4f Acc@1: %.2f%%" %(epoch, loss.data.item(), acc))
 
     if acc > best_acc:
         print('| Saving Best model...\t\t\tTop1 = %.2f%%' % (acc))
