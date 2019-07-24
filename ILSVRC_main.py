@@ -247,9 +247,9 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         # measure accuracy and record loss
         prec1, prec5 = accuracy(output.data, target, topk=(1, 5))
-        losses.update(loss.data[0], input.size(0))
-        top1.update(prec1[0], input.size(0))
-        top5.update(prec5[0], input.size(0))
+        losses.update(loss.data, input.size(0)) # for pytorch 1.0.0 loss.data[0] 
+        top1.update(prec1, input.size(0)) # for pytorch 1.0.0
+        top5.update(prec5, input.size(0)) # for pytorch 1.0.0
 
         # compute gradient and do SGD step
         optimizer.zero_grad()
@@ -292,9 +292,9 @@ def validate(val_loader, model, criterion):
 
         # measure accuracy and record loss
         prec1, prec5 = accuracy(output.data, target, topk=(1, 5))
-        losses.update(loss.data[0], input.size(0))
-        top1.update(prec1[0], input.size(0))
-        top5.update(prec5[0], input.size(0))
+        losses.update(loss.data, input.size(0)) # for pytorch 1.0.0
+        top1.update(prec1, input.size(0)) # for pytorch 1.0.0
+        top5.update(prec5, input.size(0)) # for pytorch 1.0.0
 
         # measure elapsed time
         batch_time.update(time.time() - end)
