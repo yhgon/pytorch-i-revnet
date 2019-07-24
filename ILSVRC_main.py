@@ -261,8 +261,9 @@ def train(train_loader, model, criterion, optimizer, epoch):
         end = time.time()
 
         if i % args.print_freq == 0:
-            print('Epoch: {} {}/{} \t bt{:.3f} dt{:.3f} loss{:.4f} top1{:.3f} top5{:.3f} '.format(
-                  epoch, i, len(train_loader), batch_time,  data_time,  losses,  top1,  top5)  )
+            print('Epoch: {} {}/{} \t  '.format(
+                  epoch, i, len(train_loader)), 
+                  batch_time.val,  data_time.val,  losses.val,  top1.val,  top5.val  )
 
 
 def validate(val_loader, model, criterion):
@@ -295,10 +296,10 @@ def validate(val_loader, model, criterion):
         end = time.time()
 
         if i % args.print_freq == 0:
-            print('Test: {0}/{1}\t {:.3f} {:.4f} {:.3f} {:.3f}'.format(
-                   i, len(val_loader), batch_time, losses, top1, top5))
+            print('Test: { }/{ }\t  '.format( i, len(val_loader)),
+                  batch_time, losses.val, top1.val, top5.val)
 
-    print(' * Prec@top1 {:.3f} Prec@top5 {:.3f}'.format(top1, top5))
+    print('top1, top5 :  ' top1.val, top5.val )
 
     return top1.avg
 
